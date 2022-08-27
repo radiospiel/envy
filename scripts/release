@@ -3,9 +3,9 @@ set -eu -o pipefail
 
 DATE=$(date "+%y%m%d-%H%M%S")
 
-# RELEASE_TYPE=""
+RELEASE_TYPE=""
 # RELEASE_TYPE="--draft"
-RELEASE_TYPE="--prerelease"
+# RELEASE_TYPE="--prerelease"
           
 # prepare release.md text file
 erb date=$DATE $0.md.erb > tmp/release.md
@@ -16,5 +16,5 @@ hub release create $RELEASE_TYPE \
                    --attach "bin/envy.arm64-apple-darwin.bin#macos ARM binary" \
                    --file tmp/release.md \
                    --edit \
-                   --commitish purpose/add-go \
+                   --commitish main \
                    releases/$DATE
