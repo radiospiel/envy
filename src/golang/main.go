@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./cli"
+	"github.com/radiospiel/envy/cli"
 )
 
 func main() {

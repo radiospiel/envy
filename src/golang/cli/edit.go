@@ -3,7 +3,7 @@ package cli
 import "github.com/spf13/cobra"
 
 import (
-	"../envy"
+	"github.com/radiospiel/envy/envy"
 	"fmt"
 	"io/ioutil"
 	"os"

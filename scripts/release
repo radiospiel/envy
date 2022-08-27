@@ -12,7 +12,8 @@ erb date=$DATE $0.md.erb > tmp/release.md
 
 hub release create $RELEASE_TYPE \
                    --attach "bin/envy.x86_64-pc-linux-gnu.bin#linux binary" \
-                   --attach "bin/envy.x86_64-apple-darwin18.bin#macos binary" \
+                   --attach "bin/envy.x86_64-apple-darwin.bin#macos Intel binary" \
+                   --attach "bin/envy.arm64-apple-darwin.bin#macos ARM binary" \
                    --file tmp/release.md \
                    --edit \
                    --commitish purpose/add-go \

@@ -1,10 +1,11 @@
 package cli
 
 import (
-	"../envy"
-	"github.com/spf13/cobra"
 	"log"
 	"os"
+
+	"github.com/radiospiel/envy/envy"
+	"github.com/spf13/cobra"
 )
 
 var (

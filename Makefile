@@ -3,24 +3,22 @@
 # we currently don't need MACHTYPE
 # MACHTYPE:=$(shell set | grep ^MACHTYPE= | sed s-.*=--)
 
-default: build-golang
+default: build
 
-test: build-golang test-golang
+test: build test
+
+all: build test build-all
 
 # -- go specific --------------------------------------------------------------
 
 .PHONY: bin/envy.go.bin
-build-golang: bin/envy.go.bin
+build: bin/envy.go.bin
 
-bin/envy.go.bin: .dependencies
-	go build -o $@ src/golang/main.go
+bin/envy.go.bin: Makefile
+	cd src/golang && go build -o ../../$@
 
-test-golang:
+test:
 	ENVY=bin/envy.go spec/bin/roundup spec/*-test.sh
-
-.dependencies: Makefile
-	go get github.com/spf13/cobra
-	touch .dependencies
 
 # --- releases ----------------------------------------------------------------
 
@@ -30,23 +28,20 @@ test-golang:
 #
 # x86_64-apple-darwin18    | darwin | amd64
 # x86_64-pc-linux-gnu      | linux  | amd64
+# arm64-apple-darwin21     | darwin | amd64
 #
-build-golang-all: .dependencies
-	GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o bin/envy.x86_64-apple-darwin18.bin src/golang/main.go
-	upx bin/envy.x86_64-apple-darwin18.bin
-	GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o bin/envy.x86_64-pc-linux-gnu.bin src/golang/main.go
-	upx bin/envy.x86_64-pc-linux-gnu.bin
+build-all: .dependencies
+	cd src/golang && GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o ../../bin/envy.x86_64-apple-darwin.bin
+	cd src/golang && GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w" -o ../../bin/envy.arm64-apple-darwin.bin
+	cd src/golang && GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o ../../bin/envy.x86_64-pc-linux-gnu.bin
+	upx bin/envy.*arm64*.bin
+	upx bin/envy.*x86*.bin
 
-prerelease: build-golang-all
+prerelease: build-all
 	scripts/prerelease
 
-release: build-golang-all
+release: build-all
 	scripts/release
-
-# --- ruby specific -----------------------------------------------------------
-
-test-ruby:
-	ENVY=bin/envy.rb spec/bin/roundup spec/*-test.sh
 
 # --- local installation ------------------------------------------------------
 
