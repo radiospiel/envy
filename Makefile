@@ -31,10 +31,9 @@ test:
 # arm64-apple-darwin21     | darwin | amd64
 #
 build-all: .dependencies
-	cd src/golang && GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o ../../bin/envy.x86_64-apple-darwin.bin
 	cd src/golang && GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w" -o ../../bin/envy.arm64-apple-darwin.bin
+	cd src/golang && GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o ../../bin/envy.x86_64-apple-darwin.bin
 	cd src/golang && GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o ../../bin/envy.x86_64-pc-linux-gnu.bin
-	upx bin/envy.*arm64*.bin
 	upx bin/envy.*x86*.bin
 
 prerelease: build-all
