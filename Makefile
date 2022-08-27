@@ -34,6 +34,8 @@ build-all: .dependencies
 	cd src/golang && GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w" -o ../../bin/envy.arm64-apple-darwin.bin
 	cd src/golang && GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o ../../bin/envy.x86_64-apple-darwin.bin
 	cd src/golang && GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o ../../bin/envy.x86_64-pc-linux-gnu.bin
+	# We only compress the x86 version; we don't compress the Apple Silicon version
+	# due to https://github.com/upx/upx/issues/446
 	upx bin/envy.*x86*.bin
 
 prerelease: build-all
