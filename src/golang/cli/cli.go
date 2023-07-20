@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/Wing924/shellwords"
 	"github.com/radiospiel/envy/envy"
 	"github.com/spf13/cobra"
 )
@@ -61,7 +62,7 @@ func editFile(path string) bool {
 	/*
 	 * run editor on tmpFile. The editor is determined by $EDITOR, and
 	 */
-	err := shell("$EDITOR " + path)
+	err := shell("$EDITOR " + shellwords.Escape(path))
 	return err == nil
 }
 
